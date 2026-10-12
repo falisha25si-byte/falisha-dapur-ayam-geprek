@@ -1,0 +1,25 @@
+/* =========================================================
+   Custom Style Guest - Geprekku
+   Tema Guest: merah cabai + kuning (mengikuti warna logo)
+   ========================================================= */
+:root {
+  --primary: #d7261e;
+  --secondary: #f6b417;
+}
+
+/* Logo di navbar */
+.brand-logo {
+  height: 54px;
+  width: auto;
+}
+
+/* Logo di footer */
+.footer-logo {
+  height: 48px;
+  width: auto;
+}
+
+@media (max-width: 576px) {
+  .brand-logo { height: 42px; }
+  .bsub { display: none; }
+}

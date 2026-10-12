@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Template admin (sumber)
+/template-src/inapp-admin/node_modules
+/template-src/inapp-admin/dist
