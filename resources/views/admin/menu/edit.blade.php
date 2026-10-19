@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.app')
 
 @section('title', 'Edit Menu')
 
@@ -23,16 +23,8 @@
       <div class="card">
         <div class="card-body p-4">
 
-          {{-- Error validasi --}}
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
+          {{-- Flash data & error validasi --}}
+          @include('layouts.admin.alert')
 
           <form action="{{ route('menu.update', $dataMenu->menu_id) }}" method="POST">
             @csrf

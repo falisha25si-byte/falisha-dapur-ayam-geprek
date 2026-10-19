@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.app')
 
 @section('title', 'Data Menu')
 
@@ -18,13 +18,8 @@
     </div>
   </div>
 
-  {{-- Flash data: info sukses setelah redirect --}}
-  @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <i class="ti ti-circle-check me-1"></i> {{ session('success') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  @endif
+  {{-- Flash data (success/error) --}}
+  @include('layouts.admin.alert')
 
   <div class="row">
     <div class="col-12">
