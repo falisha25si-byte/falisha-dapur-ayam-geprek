@@ -17,4 +17,12 @@ class HomeController extends Controller
 
         return view('guest.home', $data);
     }
+
+    /**
+     * Halaman Contact Us (GET /contact).
+     */
+    public function contact()
+    {
+        return view('guest.contact');
+    }
 }

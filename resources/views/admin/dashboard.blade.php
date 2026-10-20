@@ -3,6 +3,9 @@
 @section('title', 'Dashboard')
 
 @section('content')
+  {{-- Alert hasil login (flash 'success' dari AuthController) --}}
+  @include('layouts.admin.alert')
+
   <!-- Banner sambutan + logo -->
   <div class="row mb-4">
     <div class="col-12">
