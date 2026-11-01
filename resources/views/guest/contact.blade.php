@@ -44,22 +44,47 @@
 
         <div class="col-lg-8" data-aos="fade-left">
           <div class="fcard">
-            <div class="row g-3">
-              <div class="col-sm-6"><label class="flbl">Nama *</label><input type="text" class="fctrl" placeholder="Nama lengkap" /></div>
-              <div class="col-sm-6"><label class="flbl">Email *</label><input type="email" class="fctrl" placeholder="kamu@email.com" /></div>
-              <div class="col-sm-6"><label class="flbl">No. Telepon</label><input type="tel" class="fctrl" placeholder="0812-0000-0000" /></div>
-              <div class="col-sm-6">
-                <label class="flbl">Subjek *</label>
-                <select class="fctrl">
-                  <option>Pertanyaan Umum</option>
-                  <option>Katering &amp; Acara</option>
-                  <option>Saran &amp; Masukan</option>
-                  <option>Kerja Sama</option>
-                </select>
+           <div class="w-100">
+            {{-- alert sukses / gagal / error validasi (partial view) --}}
+            @include('layouts.guest.alert')
+
+            <form action="{{ route('contact.kirim') }}" method="POST">
+              @csrf
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="flbl" for="nama">Nama *</label>
+                  <input type="text" id="nama" name="nama" value="{{ old('nama') }}"
+                    class="fctrl @error('nama') is-invalid @enderror" placeholder="Nama lengkap" />
+                </div>
+                <div class="col-sm-6">
+                  <label class="flbl" for="email">Email *</label>
+                  <input type="email" id="email" name="email" value="{{ old('email') }}"
+                    class="fctrl @error('email') is-invalid @enderror" placeholder="kamu@email.com" />
+                </div>
+                <div class="col-sm-6">
+                  <label class="flbl" for="no_telepon">No. Telepon</label>
+                  <input type="tel" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}"
+                    class="fctrl @error('no_telepon') is-invalid @enderror" placeholder="0812-0000-0000" />
+                </div>
+                <div class="col-sm-6">
+                  <label class="flbl" for="subjek">Subjek *</label>
+                  <select id="subjek" name="subjek" class="fctrl @error('subjek') is-invalid @enderror">
+                    @foreach (\App\Http\Controllers\PesanKontakController::SUBJEK as $subjek)
+                      <option value="{{ $subjek }}" {{ old('subjek') == $subjek ? 'selected' : '' }}>{{ $subjek }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="flbl" for="pesan">Pesan *</label>
+                  <textarea id="pesan" name="pesan" rows="5" class="fctrl @error('pesan') is-invalid @enderror"
+                    placeholder="Tulis pesanmu di sini...">{{ old('pesan') }}</textarea>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-red"><i class="fas fa-paper-plane"></i> Kirim Pesan</button>
+                </div>
               </div>
-              <div class="col-12"><label class="flbl">Pesan *</label><textarea class="fctrl" rows="5" placeholder="Tulis pesanmu di sini..."></textarea></div>
-              <div class="col-12"><button type="button" class="btn-red"><i class="fas fa-paper-plane"></i> Kirim Pesan</button></div>
-            </div>
+            </form>
+           </div>
           </div>
         </div>
       </div>
