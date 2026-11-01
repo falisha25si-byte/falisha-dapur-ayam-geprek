@@ -75,15 +75,19 @@ class UlasanController extends Controller
     }
 
     /**
-     * Simpan ulasan baru -> Model::create() (mass assignment, timestamps otomatis).
+     * Simpan ulasan baru -> Ulasan::create($data) (timestamps otomatis).
      */
     public function store(Request $request)
     {
         $request->validate($this->aturan, $this->pesan, $this->atribut);
 
         try {
-            $data = $request->only(['pelanggan_id', 'menu_id', 'rating', 'komentar', 'tanggal_ulasan']);
-            $data['tampil'] = $request->boolean('tampil');
+            $data['pelanggan_id']   = $request->pelanggan_id;
+            $data['menu_id']        = $request->menu_id;
+            $data['rating']         = $request->rating;
+            $data['komentar']       = $request->komentar;
+            $data['tanggal_ulasan'] = $request->tanggal_ulasan;
+            $data['tampil']         = $request->has('tampil'); // checkbox: dicentang = true
 
             Ulasan::create($data);
         } catch (\Exception $e) {
@@ -111,7 +115,7 @@ class UlasanController extends Controller
     }
 
     /**
-     * Simpan perubahan -> $model->update().
+     * Simpan perubahan -> isi kolom satu per satu lalu $ulasan->save().
      */
     public function update(Request $request, string $id)
     {
@@ -120,10 +124,14 @@ class UlasanController extends Controller
         $ulasan = Ulasan::findOrFail($id);
 
         try {
-            $data = $request->only(['pelanggan_id', 'menu_id', 'rating', 'komentar', 'tanggal_ulasan']);
-            $data['tampil'] = $request->boolean('tampil');
+            $ulasan->pelanggan_id   = $request->pelanggan_id;
+            $ulasan->menu_id        = $request->menu_id;
+            $ulasan->rating         = $request->rating;
+            $ulasan->komentar       = $request->komentar;
+            $ulasan->tanggal_ulasan = $request->tanggal_ulasan;
+            $ulasan->tampil         = $request->has('tampil'); // checkbox: dicentang = true
 
-            $ulasan->update($data);
+            $ulasan->save();
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan perubahan ulasan.');
         }
