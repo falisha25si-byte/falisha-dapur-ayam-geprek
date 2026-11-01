@@ -26,7 +26,7 @@
           {{-- Flash data & error validasi --}}
           @include('layouts.admin.alert')
 
-          <form action="{{ route('menu.store') }}" method="POST">
+          <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -74,6 +74,20 @@
               <textarea id="deskripsi" name="deskripsi" rows="4" class="form-control @error('deskripsi') is-invalid @enderror"
                 placeholder="Ayam crispy digeprek dengan sambal bawang...">{{ old('deskripsi') }}</textarea>
               @error('deskripsi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div class="mb-3">
+              <label for="gambar" class="form-label">Foto Menu <small class="text-secondary">(jpg/png/webp, maks 2 MB)</small></label>
+              <div class="d-flex gap-3 align-items-start flex-wrap">
+                <img id="preview-gambar" src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt="Preview foto menu"
+                  class="rounded border" style="width: 160px; height: 120px; object-fit: cover;">
+                <div class="flex-grow-1">
+                  <input type="file" id="gambar" name="gambar" accept="image/*"
+                    class="form-control @error('gambar') is-invalid @enderror"
+                    onchange="if (this.files[0]) document.getElementById('preview-gambar').src = window.URL.createObjectURL(this.files[0])">
+                  @error('gambar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                  <small class="text-secondary">Belum punya foto? Kosongkan, nanti tampil gambar default Geprekku.</small>
+                </div>
+              </div>
             </div>
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-primary">Simpan</button>

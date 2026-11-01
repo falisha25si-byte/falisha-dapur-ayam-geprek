@@ -26,7 +26,7 @@
           {{-- Flash data & error validasi --}}
           @include('layouts.admin.alert')
 
-          <form action="{{ route('menu.update', $dataMenu->menu_id) }}" method="POST">
+          <form action="{{ route('menu.update', $dataMenu->menu_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
@@ -75,6 +75,20 @@
               <textarea id="deskripsi" name="deskripsi" rows="4" class="form-control @error('deskripsi') is-invalid @enderror"
                 placeholder="Ayam crispy digeprek dengan sambal bawang...">{{ old('deskripsi', $dataMenu->deskripsi) }}</textarea>
               @error('deskripsi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div class="mb-3">
+              <label for="gambar" class="form-label">Foto Menu <small class="text-secondary">(jpg/png/webp, maks 2 MB)</small></label>
+              <div class="d-flex gap-3 align-items-start flex-wrap">
+                <img id="preview-gambar" src="{{ $dataMenu->gambar_url }}" alt="Preview foto menu"
+                  class="rounded border" style="width: 160px; height: 120px; object-fit: cover;">
+                <div class="flex-grow-1">
+                  <input type="file" id="gambar" name="gambar" accept="image/*"
+                    class="form-control @error('gambar') is-invalid @enderror"
+                    onchange="if (this.files[0]) document.getElementById('preview-gambar').src = window.URL.createObjectURL(this.files[0])">
+                  @error('gambar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                  <small class="text-secondary">Kosongkan jika tidak ingin mengganti foto.</small>
+                </div>
+              </div>
             </div>
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-info text-white">Simpan Perubahan</button>

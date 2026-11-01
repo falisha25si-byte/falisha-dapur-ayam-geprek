@@ -41,8 +41,13 @@
               <tr class="align-middle">
                 <td>{{ $loop->iteration }}</td>
                 <td>
-                  <span class="fw-semibold">{{ $item->nama_menu }}</span>
-                  <small class="d-block text-secondary">{{ Str::limit($item->deskripsi, 40) }}</small>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="{{ $item->gambar_url }}" alt="{{ $item->nama_menu }}" class="avatar avatar-md rounded" style="object-fit: cover;">
+                    <div>
+                      <span class="fw-semibold">{{ $item->nama_menu }}</span>
+                      <small class="d-block text-secondary">{{ Str::limit($item->deskripsi, 40) }}</small>
+                    </div>
+                  </div>
                 </td>
                 <td>{{ $item->kategori }}</td>
                 <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>

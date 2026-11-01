@@ -29,14 +29,12 @@
                   </ul>
                </div>
                <div class="col-sm-6 col-lg-2">
-                  <div class="ftit">Our Menu</div>
+                  <div class="ftit">Menu Kami</div>
                   <ul class="flinks ps-0">
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Burgers</a></li>
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Pizza</a></li>
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Fried Chicken</a></li>
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Wraps &amp; Rolls</a></li>
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Pasta</a></li>
-                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Desserts</a></li>
+                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Ayam Geprek</a></li>
+                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Paket Hemat</a></li>
+                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Minuman</a></li>
+                     <li><a href="{{ route('home') }}#menu"><i class="fas fa-chevron-right"></i>Tambahan</a></li>
                   </ul>
                </div>
                <div class="col-lg-4">

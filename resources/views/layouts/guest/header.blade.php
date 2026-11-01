@@ -64,43 +64,36 @@
       <div id="searchOv">
          <button class="sovclose" id="searchClose"><i class="fas fa-times"></i></button>
          <div class="sovbox">
-            <h4>What are you craving today?</h4>
+            <h4>Lagi pengin geprek yang mana?</h4>
             <div class="sovinput">
-               <input type="text" id="searchInput" placeholder="Search burgers, pizza, chicken..." autocomplete="off"/>
+               <input type="text" id="searchInput" placeholder="Cari ayam geprek, paket hemat, minuman..." autocomplete="off"/>
                <button><i class="fas fa-search"></i></button>
             </div>
             <!-- Categories inside search box -->
             <div class="sovcats">
                <div class="sovcat active" data-cat="all">
-                  <img src="{{ asset('assets-guest/img/menu/1.jpg') }}" alt=""/>All Items
+                  <img src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt=""/>Semua Menu
                </div>
-               <div class="sovcat" data-cat="burgers">
-                  <img src="{{ asset('assets-guest/img/menu/1.jpg') }}" alt=""/>Burgers
+               <div class="sovcat" data-cat="ayam-geprek">
+                  <img src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt=""/>Ayam Geprek
                </div>
-               <div class="sovcat" data-cat="pizza">
-                  <img src="{{ asset('assets-guest/img/menu/2.jpg') }}" alt=""/>Pizza
+               <div class="sovcat" data-cat="paket-hemat">
+                  <img src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt=""/>Paket Hemat
                </div>
-               <div class="sovcat" data-cat="chicken">
-                  <img src="{{ asset('assets-guest/img/menu/3.jpg') }}" alt=""/>Chicken
+               <div class="sovcat" data-cat="minuman">
+                  <img src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt=""/>Minuman
                </div>
-               <div class="sovcat" data-cat="wraps">
-                  <img src="{{ asset('assets-guest/img/menu/4.jpg') }}" alt=""/>Wraps
-               </div>
-               <div class="sovcat" data-cat="pasta">
-                  <img src="{{ asset('assets-guest/img/menu/5.jpg') }}" alt=""/>Pasta
-               </div>
-               <div class="sovcat" data-cat="desserts">
-                  <img src="{{ asset('assets-guest/img/menu/6.jpg') }}" alt=""/>Desserts
+               <div class="sovcat" data-cat="tambahan">
+                  <img src="{{ asset('assets-guest/img/menu-default.jpg') }}" alt=""/>Tambahan
                </div>
             </div>
             <div class="sovtrend">
-               <p><i class="fas fa-fire me-1" style="color:var(--secondary);"></i>Trending Searches</p>
-               <span class="ttag">Smash Burger</span>
-               <span class="ttag">Nashville Chicken</span>
-               <span class="ttag">Truffle Pizza</span>
-               <span class="ttag">Lava Cake</span>
-               <span class="ttag">Loaded Fries</span>
-               <span class="ttag">Mango Shake</span>
+               <p><i class="fas fa-fire me-1" style="color:var(--secondary);"></i>Paling Dicari</p>
+               <span class="ttag">Geprek Original</span>
+               <span class="ttag">Geprek Mozarella</span>
+               <span class="ttag">Sambal Matah</span>
+               <span class="ttag">Paket Kenyang</span>
+               <span class="ttag">Es Teh Manis</span>
             </div>
          </div>
       </div>

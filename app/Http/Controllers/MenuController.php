@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -18,6 +19,10 @@ class MenuController extends Controller
         'integer'  => ':attribute harus berupa angka bulat.',
         'harga.min'   => 'Harga minimal Rp 1.000.',
         'level_pedas.between' => 'Level pedas harus antara 0 sampai 5.',
+        'image'    => ':attribute harus berupa gambar.',
+        'mimes'    => ':attribute harus berformat jpg, jpeg, png, atau webp.',
+        'gambar.max' => 'Ukuran foto maksimal 2 MB.',
+        'nama_menu.unique' => 'Menu dengan nama ini sudah ada, gunakan nama lain.',
     ];
 
     private $atribut = [
@@ -27,6 +32,7 @@ class MenuController extends Controller
         'level_pedas' => 'Level pedas',
         'deskripsi'   => 'Deskripsi',
         'status'      => 'Status',
+        'gambar'      => 'Foto menu',
     ];
 
     /**
@@ -52,12 +58,14 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_menu'   => 'required|max:100',
+            // unique: nama menu tidak boleh dobel
+            'nama_menu'   => 'required|max:100|unique:menu,nama_menu',
             'kategori'    => 'required|in:Ayam Geprek,Paket Hemat,Minuman,Tambahan',
             'harga'       => 'required|numeric|min:1000',
             'level_pedas' => 'required|integer|between:0,5',
             'deskripsi'   => 'nullable|max:500',
             'status'      => 'required|in:Tersedia,Habis',
+            'gambar'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ], $this->pesan, $this->atribut);
 
         $data['nama_menu']   = $request->nama_menu;
@@ -66,6 +74,11 @@ class MenuController extends Controller
         $data['level_pedas'] = $request->level_pedas;
         $data['deskripsi']   = $request->deskripsi;
         $data['status']      = $request->status;
+
+        // upload foto -> storage/app/public/menu (diakses lewat public/storage)
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('menu', 'public');
+        }
 
         Menu::create($data);
 
@@ -95,12 +108,14 @@ class MenuController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nama_menu'   => 'required|max:100',
+            // unique, kecuali milik menu ini sendiri
+            'nama_menu'   => 'required|max:100|unique:menu,nama_menu,' . $id . ',menu_id',
             'kategori'    => 'required|in:Ayam Geprek,Paket Hemat,Minuman,Tambahan',
             'harga'       => 'required|numeric|min:1000',
             'level_pedas' => 'required|integer|between:0,5',
             'deskripsi'   => 'nullable|max:500',
             'status'      => 'required|in:Tersedia,Habis',
+            'gambar'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ], $this->pesan, $this->atribut);
 
         $menu = Menu::findOrFail($id);
@@ -111,6 +126,14 @@ class MenuController extends Controller
         $menu->level_pedas = $request->level_pedas;
         $menu->deskripsi   = $request->deskripsi;
         $menu->status      = $request->status;
+
+        // ganti foto: hapus foto lama, simpan foto baru
+        if ($request->hasFile('gambar')) {
+            if ($menu->gambar) {
+                Storage::disk('public')->delete($menu->gambar);
+            }
+            $menu->gambar = $request->file('gambar')->store('menu', 'public');
+        }
 
         $menu->save();
 
@@ -123,6 +146,11 @@ class MenuController extends Controller
     public function destroy(string $id)
     {
         $menu = Menu::findOrFail($id);
+
+        // hapus file foto dari storage
+        if ($menu->gambar) {
+            Storage::disk('public')->delete($menu->gambar);
+        }
 
         $menu->delete();
         return redirect()->route('menu.index')->with('success', 'Data Menu Berhasil Dihapus!');
