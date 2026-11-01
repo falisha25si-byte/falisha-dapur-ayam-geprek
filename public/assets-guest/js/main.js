@@ -383,28 +383,22 @@ new Swiper('.tesSwiper', {
 });
 
 
-var cH = 8,
-    cM = 45,
-    cS = 30;
-setInterval(function() {
-    cS--;
-    if (cS < 0) {
-        cS = 59;
-        cM--;
-    }
-    if (cM < 0) {
-        cM = 59;
-        cH--;
-    }
-    if (cH < 0) {
-        cH = 8;
-        cM = 45;
-        cS = 30;
-    }
-    document.getElementById('cdH').textContent = String(cH).padStart(2, '0');
-    document.getElementById('cdM').textContent = String(cM).padStart(2, '0');
-    document.getElementById('cdS').textContent = String(cS).padStart(2, '0');
-}, 1000);
+/* Countdown promo: menghitung mundur ke data-end (tanggal_selesai promo dari database) */
+(function() {
+    var wrap = document.getElementById('cdWrap');
+    if (!wrap || !wrap.dataset.end) return;
+    var end = new Date(wrap.dataset.end).getTime();
+    var pad = function(n) { return String(n).padStart(2, '0'); };
+    var tick = function() {
+        var sisa = Math.max(0, Math.floor((end - Date.now()) / 1000));
+        document.getElementById('cdD').textContent = pad(Math.floor(sisa / 86400));
+        document.getElementById('cdH').textContent = pad(Math.floor(sisa % 86400 / 3600));
+        document.getElementById('cdM').textContent = pad(Math.floor(sisa % 3600 / 60));
+        document.getElementById('cdS').textContent = pad(sisa % 60);
+    };
+    tick();
+    setInterval(tick, 1000);
+})();
 
 /* â”€â”€ NEWSLETTER â”€â”€ */
 document.getElementById('nlBtn').addEventListener('click', function() {

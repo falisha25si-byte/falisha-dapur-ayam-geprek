@@ -42,7 +42,7 @@
                 <div class="col-lg-6">
                     <div style="position:relative;text-align:center;">
                         <div class="hcircle">
-                            <img src="{{ asset('assets-guest/img/banner-img.jpg') }}" alt="Ayam Geprek" />
+                            <img src="{{ $menuUnggulan?->gambar_url ?? asset('assets-guest/img/menu-default.jpg') }}" alt="{{ $menuUnggulan?->nama_menu ?? 'Ayam Geprek' }}" />
                         </div>
                         <div class="fcard fc1">
                             <div class="fcoi r"><i class="fas fa-fire"></i></div>
@@ -64,20 +64,20 @@
     <!-- MARQUEE -->
     <div class="mqsec">
         <div class="mqtrack">
-            <div class="mqitem"><i class="fas fa-circle"></i>Crispy Fried Chicken</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Gourmet Burgers</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Artisan Pizzas</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Fresh Wraps &amp; Rolls</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Loaded Fries</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Ice Cream Shakes</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Crispy Fried Chicken</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Gourmet Burgers</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Artisan Pizzas</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Fresh Wraps &amp; Rolls</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Loaded Fries</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Ice Cream Shakes</div>
-            <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Ayam Geprek Crispy</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Sambal Ulek Dadakan</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Geprek Mozarella</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Sambal Matah</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Paket Hemat Mahasiswa</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Es Teh Manis</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Level Pedas 0-5</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Ayam Geprek Crispy</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Sambal Ulek Dadakan</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Geprek Mozarella</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Sambal Matah</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Paket Hemat Mahasiswa</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Es Teh Manis</div>
+            <div class="mqitem"><i class="fas fa-circle"></i>Level Pedas 0-5</div>
         </div>
     </div>
     <!-- CATEGORY -->
@@ -93,7 +93,7 @@
             <div class="row g-3 justify-content-center">
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in">
                     <div class="catcard active" data-filter="all">
-                        <img class="catimg" src="{{ asset('assets-guest/img/category/1.jpg') }}" alt="" />
+                        <img class="catimg" src="{{ $menuUnggulan?->gambar_url ?? asset('assets-guest/img/menu-default.jpg') }}" alt="Semua Menu" />
                         <div class="catnm">Semua Menu</div>
                         <div class="catct">{{ $jumlahMenu }} item</div>
                     </div>
@@ -103,7 +103,7 @@
                         data-aos-delay="{{ $loop->iteration * 70 }}">
                         <div class="catcard" data-filter="{{ Str::slug($kategori) }}">
                             <img class="catimg"
-                                src="{{ asset('assets-guest/img/category/' . ($loop->iteration + 1) . '.jpg') }}"
+                                src="{{ $fotoMenu->firstWhere('kategori', $kategori)?->gambar_url ?? asset('assets-guest/img/menu-default.jpg') }}"
                                 alt="" />
                             <div class="catnm">{{ $kategori }}</div>
                             <div class="catct">{{ $jumlah }} item</div>
@@ -183,14 +183,14 @@
                 @forelse ($dataMenu as $item)
                     <div class="col-sm-6 col-lg-4 mwrap" data-c="{{ Str::slug($item->kategori) }}" data-aos="fade-up">
                         <div class="mcard"
-                            data-img="{{ asset('assets-guest/img/menu/' . (($loop->index % 6) + 1) . '.jpg') }}"
+                            data-img="{{ $item->gambar_url }}"
                             data-title="{{ $item->nama_menu }}" data-cat="{{ $item->kategori }}"
                             data-price="Rp {{ number_format($item->harga, 0, ',', '.') }}" data-old=""
-                            data-rating="4.9" data-reviews="{{ 20 + $item->menu_id }}" data-cal="-" data-time="15"
+                            data-rating="{{ $item->ulasan_avg_rating ? number_format($item->ulasan_avg_rating, 1) : 0 }}" data-reviews="{{ $item->ulasan_count }}" data-cal="-" data-time="15"
                             data-desc="{{ $item->deskripsi }}"
                             data-tags="Level {{ $item->level_pedas }},{{ $item->status }}">
                             <div class="mimg">
-                                <img src="{{ asset('assets-guest/img/menu/' . (($loop->index % 6) + 1) . '.jpg') }}"
+                                <img src="{{ $item->gambar_url }}"
                                     alt="{{ $item->nama_menu }}" />
                                 @if ($item->level_pedas >= 4)
                                     <div class="mbdg hot"><i class="fas fa-fire"></i> Level {{ $item->level_pedas }}
@@ -205,8 +205,11 @@
                                 <div class="mfoot">
                                     <div>
                                         <div class="mprice">Rp {{ number_format($item->harga, 0, ',', '.') }}</div>
-                                        <div class="mstars"><i class="fas fa-pepper-hot"></i> <span
-                                                style="color:#bbb;font-size:.7rem;">Level {{ $item->level_pedas }}</span>
+                                        {{-- rata-rata rating dari relasi ulasan (withAvg & withCount) --}}
+                                        <div class="mstars">
+                                            <i class="fas fa-star"></i>
+                                            {{ $item->ulasan_avg_rating ? number_format($item->ulasan_avg_rating, 1) : 'Baru' }}
+                                            <span style="color:#bbb;font-size:.7rem;">({{ $item->ulasan_count }} ulasan) &bull; Level {{ $item->level_pedas }}</span>
                                         </div>
                                     </div>
                                     <button class="madd" title="Lihat Detail"><i class="fas fa-plus"></i></button>
@@ -250,36 +253,8 @@
             </div>
         </div>
     </div>
-    <!-- SPECIAL OFFER -->
-    <section id="special">
-        <div class="spbg"></div>
-        <div class="container" style="position:relative;z-index:2;">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="sptag"><i class="fas fa-bolt me-1"></i>Limited Time Offer</div>
-                    <h2 class="sptitle">Get 30% Off<br />Our Signature<br /><span>Burger</span> Meal</h2>
-                    <p class="spdesc">Don't miss our weekend special - grab our award-winning signature burger combo with
-                        loaded fries and a premium shake at an unbeatable price.</p>
-                    <div class="cdwrap">
-                        <div class="cditem"><span class="cdnum" id="cdH">08</span><span
-                                class="cdlbl">Hours</span></div>
-                        <div class="cditem"><span class="cdnum" id="cdM">45</span><span
-                                class="cdlbl">Minutes</span></div>
-                        <div class="cditem"><span class="cdnum" id="cdS">30</span><span
-                                class="cdlbl">Seconds</span></div>
-                    </div>
-                    <a href="#menu" class="btn-red"><i class="fas fa-shopping-cart"></i>Grab the Deal</a>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="spimgw">
-                        <div class="spglow"></div>
-                        <div class="sppbdg"><span class="old">$24.99</span><span class="np">$17.49</span></div>
-                        <img src="{{ asset('assets-guest/img/off-img.jpg') }}" alt="Special Burger" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- SPECIAL OFFER: PartialView promo (Query Builder) -->
+    @include('guest.partials.promo')
 
 
     <!-- ============================================================
@@ -288,41 +263,20 @@
     <section id="gallery">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="slbl">Food Showcase</span>
-                <h2 class="stitle">Let's See Our <span>Fast Food</span></h2>
+                <span class="slbl">Galeri Menu</span>
+                <h2 class="stitle">Intip Menu <span>Geprekku</span></h2>
                 <div class="sline"></div>
             </div>
             <div class="ggrid" data-aos="fade-up">
-                <div class="gitem" data-gi="0" data-gimg="{{ asset('assets-guest/img/portfolio/work1.jpg') }}"
-                    data-gtitle="Gourmet Burgers"
-                    data-gdesc="Our award-winning smash burgers, hand-crafted with 100% premium beef, aged cheddar and house-made sauces.">
-                    <img src="{{ asset('assets-guest/img/portfolio/work1.jpg') }}" alt="Burgers" />
-                    <div class="gover"><span><i class="fas fa-expand-alt"></i> Gourmet Burgers</span></div>
-                </div>
-                <div class="gitem" data-gi="1" data-gimg="{{ asset('assets-guest/img/portfolio/work2.jpg') }}"
-                    data-gtitle="Wood-Fired Pizza"
-                    data-gdesc="Authentic Neapolitan-style pizzas fired at 900deg F in our wood-burning stone oven for the perfect char.">
-                    <img src="{{ asset('assets-guest/img/portfolio/work2.jpg') }}" alt="Pizza" />
-                    <div class="gover"><span><i class="fas fa-expand-alt"></i> Wood-Fired Pizza</span></div>
-                </div>
-                <div class="gitem" data-gi="2" data-gimg="{{ asset('assets-guest/img/portfolio/work3.jpg') }}"
-                    data-gtitle="Crispy Fried Chicken"
-                    data-gdesc="Double-brined, hand-battered chicken fried to golden perfection using our 15-spice secret blend.">
-                    <img src="{{ asset('assets-guest/img/portfolio/work3.jpg') }}" alt="Chicken" />
-                    <div class="gover"><span><i class="fas fa-expand-alt"></i> Crispy Fried Chicken</span></div>
-                </div>
-                <div class="gitem" data-gi="3" data-gimg="{{ asset('assets-guest/img/portfolio/work4.jpg') }}"
-                    data-gtitle="Sweet Desserts"
-                    data-gdesc="Handcrafted desserts - from molten lava cakes to artisan ice cream sundaes and seasonal pastries.">
-                    <img src="{{ asset('assets-guest/img/portfolio/work4.jpg') }}" alt="Desserts" />
-                    <div class="gover"><span><i class="fas fa-expand-alt"></i> Sweet Desserts</span></div>
-                </div>
-                <div class="gitem" data-gi="4" data-gimg="{{ asset('assets-guest/img/portfolio/work5.jpg') }}"
-                    data-gtitle="Fresh Wraps &amp; Rolls"
-                    data-gdesc="Loaded fresh wraps packed with grilled proteins, crunchy vegetables and our house-made sauces.">
-                    <img src="{{ asset('assets-guest/img/portfolio/work5.jpg') }}" alt="Wraps" />
-                    <div class="gover"><span><i class="fas fa-expand-alt"></i> Fresh Wraps &amp; Rolls</span></div>
-                </div>
+                {{-- galeri diisi foto menu dari database --}}
+                @foreach ($fotoMenu->take(5) as $galeri)
+                    <div class="gitem" data-gi="{{ $loop->index }}" data-gimg="{{ $galeri->gambar_url }}"
+                        data-gtitle="{{ $galeri->nama_menu }}"
+                        data-gdesc="{{ $galeri->deskripsi }}">
+                        <img src="{{ $galeri->gambar_url }}" alt="{{ $galeri->nama_menu }}" />
+                        <div class="gover"><span><i class="fas fa-expand-alt"></i> {{ $galeri->nama_menu }}</span></div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -497,7 +451,7 @@
                         </div>
                         <div class="chbody">
                             <div class="chnm">William Latnum</div>
-                            <div class="chrole">Pizza Artisan</div>
+                            <div class="chrole">Spesialis Sambal</div>
                             <div class="chexp">9 years experience</div>
                         </div>
                     </div>
@@ -591,85 +545,8 @@
     </section>
 
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="slbl">What People Say</span>
-                <h2 class="stitle">Our Customers <span>Feedback</span></h2>
-                <div class="sline"></div>
-            </div>
-            <div class="swiper tesSwiper" data-aos="fade-up">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="tescard">
-                            <div class="tesq">"</div>
-                            <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="testxt">Honestly the best burgers I've ever had. The smash burger is incredible -
-                                perfectly crispy edges, juicy inside, and those pickles! We come every Friday now.</p>
-                            <div class="tesauth">
-                                <img src="{{ asset('assets-guest/img/testimonial/1.jpg') }}" alt="" />
-                                <div>
-                                    <div class="tesnm">Monica Wilber</div>
-                                    <div class="tesrl">Regular Customer</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="tescard">
-                            <div class="tesq">"</div>
-                            <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="testxt">Ordered delivery and the food arrived hot and fresh in 22 minutes. Portions
-                                are generous. Geprekku has become my go-to comfort food spot without question.</p>
-                            <div class="tesauth">
-                                <img src="{{ asset('assets-guest/img/testimonial/2.jpg') }}" alt="" />
-                                <div>
-                                    <div class="tesnm">Cameron Fox</div>
-                                    <div class="tesrl">Food Blogger</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="tescard">
-                            <div class="tesq">"</div>
-                            <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="testxt">The truffle pasta blew my mind. I didn't expect that quality from a fast food
-                                place. Great ambiance, super friendly staff. Highly recommended!</p>
-                            <div class="tesauth">
-                                <img src="{{ asset('assets-guest/img/testimonial/3.jpg') }}" alt="" />
-                                <div>
-                                    <div class="tesnm">Priya Sharma</div>
-                                    <div class="tesrl">Food Enthusiast</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="tescard">
-                            <div class="tesq">"</div>
-                            <div class="tess"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="testxt">Catered our office party of 50 people and everything was flawless. Fresh,
-                                delicious, on time and well presented. Nashville chicken was the absolute star!</p>
-                            <div class="tesauth">
-                                <img src="{{ asset('assets-guest/img/testimonial/4.jpg') }}" alt="" />
-                                <div>
-                                    <div class="tesnm">David Park</div>
-                                    <div class="tesrl">Corporate Client</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination mt-4" style="position:static;"></div>
-            </div>
-        </div>
-    </section>
+    <!-- TESTIMONIALS: PartialView ulasan (Eloquent ORM) -->
+    @include('guest.partials.ulasan')
 
     <!-- RESERVATION FORM -->
     <section id="reservation">
@@ -792,7 +669,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                     <div class="blcard">
                         <div class="blimg">
-                            <img src="{{ asset('assets-guest/img/blog/1.jpg') }}" alt="" />
+                            <img src="{{ $fotoMenu->isNotEmpty() ? $fotoMenu[0 % $fotoMenu->count()]->gambar_url : asset('assets-guest/img/menu-default.jpg') }}" alt="" />
                             <div class="bldatebdg"><span class="bd">14</span><span class="bm">Mar</span></div>
                         </div>
                         <div class="blbody">
@@ -807,7 +684,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
                     <div class="blcard">
                         <div class="blimg">
-                            <img src="{{ asset('assets-guest/img/blog/2.jpg') }}" alt="" />
+                            <img src="{{ $fotoMenu->isNotEmpty() ? $fotoMenu[1 % $fotoMenu->count()]->gambar_url : asset('assets-guest/img/menu-default.jpg') }}" alt="" />
                             <div class="bldatebdg"><span class="bd">28</span><span class="bm">Feb</span></div>
                         </div>
                         <div class="blbody">
@@ -823,7 +700,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
                     <div class="blcard">
                         <div class="blimg">
-                            <img src="{{ asset('assets-guest/img/blog/3.jpg') }}" alt="" />
+                            <img src="{{ $fotoMenu->isNotEmpty() ? $fotoMenu[2 % $fotoMenu->count()]->gambar_url : asset('assets-guest/img/menu-default.jpg') }}" alt="" />
                             <div class="bldatebdg"><span class="bd">05</span><span class="bm">Jan</span></div>
                         </div>
                         <div class="blbody">

@@ -16,4 +16,12 @@ class Pelanggan extends Model
         'tanggal_lahir',
         'alamat',
     ];
+
+    /**
+     * Relasi: satu pelanggan bisa menulis banyak ulasan (hasMany).
+     */
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'pelanggan_id', 'pelanggan_id');
+    }
 }

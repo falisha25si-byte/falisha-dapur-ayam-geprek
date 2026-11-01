@@ -14,6 +14,26 @@ class Menu extends Model
         'harga',
         'level_pedas',
         'deskripsi',
+        'gambar',
         'status',
     ];
+
+    /**
+     * Accessor: $menu->gambar_url
+     * URL foto menu; jika belum ada foto, pakai gambar default Geprekku.
+     */
+    public function getGambarUrlAttribute()
+    {
+        return $this->gambar
+            ? asset('storage/' . $this->gambar)
+            : asset('assets-guest/img/menu-default.jpg');
+    }
+
+    /**
+     * Relasi: satu menu punya banyak ulasan (hasMany).
+     */
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'menu_id', 'menu_id');
+    }
 }
