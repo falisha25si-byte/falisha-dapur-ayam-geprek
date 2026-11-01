@@ -23,7 +23,8 @@ class GeprekkuSeeder extends Seeder
             ['nama_menu' => 'Tahu Tempe Goreng', 'kategori' => 'Tambahan', 'harga' => 5000, 'level_pedas' => 0, 'deskripsi' => 'Lauk tambahan tahu dan tempe goreng.', 'status' => 'Habis'],
         ];
         foreach ($menu as $item) {
-            Menu::create($item);
+            // firstOrCreate: hanya dibuat jika nama menu belum ada -> seeder aman dijalankan ulang
+            Menu::firstOrCreate(['nama_menu' => $item['nama_menu']], $item);
         }
 
         $pelanggan = [
@@ -32,7 +33,7 @@ class GeprekkuSeeder extends Seeder
             ['nama_pelanggan' => 'Dimas Saputra', 'jenis_kelamin' => 'Laki-laki', 'no_hp' => '081234567803', 'email' => 'dimas@mail.com', 'tanggal_lahir' => null, 'alamat' => 'Jl. Sudirman No. 10'],
         ];
         foreach ($pelanggan as $item) {
-            Pelanggan::create($item);
+            Pelanggan::firstOrCreate(['email' => $item['email']], $item);
         }
 
         $bahan = [
@@ -42,7 +43,7 @@ class GeprekkuSeeder extends Seeder
             ['nama_bahan' => 'Minyak Goreng', 'satuan' => 'liter', 'stok' => 3, 'harga_satuan' => 17000, 'supplier' => 'Toko Sembako Jaya', 'tanggal_masuk' => '2026-10-08'],
         ];
         foreach ($bahan as $item) {
-            BahanBaku::create($item);
+            BahanBaku::firstOrCreate(['nama_bahan' => $item['nama_bahan']], $item);
         }
     }
 }

@@ -31,6 +31,28 @@
       </a>
     </li>
 
+    <li class="px-4 pt-4 pb-2"><small class="nav-text">Data Relasi</small></li>
+    <li>
+      <a class="nav-link {{ request()->routeIs('ulasan.*') ? 'active' : '' }}" href="{{ route('ulasan.index') }}">
+        <i class="ti ti-star"></i><span class="nav-text">Ulasan <small class="opacity-50">(Eloquent)</small></span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link {{ request()->routeIs('promo.*') ? 'active' : '' }}" href="{{ route('promo.index') }}">
+        <i class="ti ti-discount-2"></i><span class="nav-text">Promo <small class="opacity-50">(Query Builder)</small></span>
+      </a>
+    </li>
+
+    <li class="px-4 pt-4 pb-2"><small class="nav-text">Kotak Masuk</small></li>
+    <li>
+      @php $pesanBaru = \Illuminate\Support\Facades\DB::table('pesan_kontak')->where('sudah_dibaca', false)->count(); @endphp
+      <a class="nav-link {{ request()->routeIs('pesan.*') ? 'active' : '' }}" href="{{ route('pesan.index') }}">
+        <i class="ti ti-mail"></i><span class="nav-text">Pesan Masuk
+          @if ($pesanBaru > 0) <span class="badge bg-danger ms-1">{{ $pesanBaru }}</span> @endif
+        </span>
+      </a>
+    </li>
+
     <li class="px-4 pt-4 pb-2"><small class="nav-text">Pengaturan</small></li>
     <li>
       <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">

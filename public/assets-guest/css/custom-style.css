@@ -23,3 +23,78 @@
   .brand-logo { height: 42px; }
   .bsub { display: none; }
 }
+
+/* ===== Promo (partial promo.blade.php) ===== */
+.sp-price {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-top: 14px;
+}
+.sp-price s {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: 8px;
+}
+.sp-unlimited {
+  color: var(--secondary);
+  font-weight: 600;
+  margin: 22px 0;
+}
+.promo-mini {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 16px 18px;
+  height: 100%;
+}
+.promo-mini-disc {
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.promo-mini-title { color: #fff; font-weight: 600; }
+.promo-mini-menu { color: var(--secondary); font-size: 0.82rem; }
+.promo-mini-price { color: rgba(255, 255, 255, 0.85); font-size: 0.85rem; margin-top: 2px; }
+.promo-mini-price s { color: rgba(255, 255, 255, 0.4); margin-right: 6px; }
+
+/* ===== Ulasan (partial ulasan.blade.php) ===== */
+.tes-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  background: var(--secondary);
+  color: var(--dark);
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Foto promo dari database: rapikan rasio agar tidak gepeng */
+.spimgw img.promo-img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+/* Contact Us: tandai input yang gagal validasi */
+.fctrl.is-invalid {
+  border-color: var(--primary) !important;
+  background-color: #fff5f5;
+}
