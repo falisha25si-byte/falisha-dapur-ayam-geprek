@@ -48,7 +48,31 @@
                   <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#reservation">Reservasi</a></li>
                   <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#testimonials">Ulasan</a></li>
                   <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact Us</a></li>
-                  <li class="nav-item"><a class="nav-link {{ request()->routeIs('auth') ? 'active' : '' }}" href="{{ route('auth') }}">Login</a></li>
+                  @if (Auth::check())
+                     {{-- sudah login: tampilkan nama & role --}}
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           <i class="fas fa-user-circle me-1"></i>{{ Str::words(Auth::user()->name, 1, '') }}
+                           <span class="badge rounded-pill role-badge">{{ Auth::user()->role }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                           <li><span class="dropdown-item-text small text-muted">{{ Auth::user()->email }}</span></li>
+                           @if (Auth::user()->role === 'Admin')
+                              <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fas fa-gauge me-2"></i>Dashboard Admin</a></li>
+                           @endif
+                           <li><hr class="dropdown-divider"></li>
+                           <li>
+                              <form method="POST" action="{{ route('auth.logout') }}">
+                                 @csrf
+                                 <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                              </form>
+                           </li>
+                        </ul>
+                     </li>
+                  @else
+                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">Login</a></li>
+                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}" href="{{ route('register') }}">Daftar</a></li>
+                  @endif
                </ul>
                <div class="d-flex align-items-center gap-1">
                   <!-- FIX 1: Search button -->

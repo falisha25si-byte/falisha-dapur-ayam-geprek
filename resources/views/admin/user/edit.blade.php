@@ -57,6 +57,16 @@
                   class="form-control" placeholder="Ulangi password baru">
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select id="role" name="role" class="form-select @error('role') is-invalid @enderror">
+                  <option value="Pelanggan" {{ old('role', $dataUser->role) == 'Pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                  <option value="Admin" {{ old('role', $dataUser->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+                @error('role') <div class="invalid-feedback">{{ $message }}</div> @enderror
+              </div>
+            </div>
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-info text-white">Simpan Perubahan</button>
               <a href="{{ route('user.index') }}" class="btn btn-secondary">Batal</a>

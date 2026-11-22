@@ -30,6 +30,7 @@
               <th>No</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Role</th>
               <th>Password (hash)</th>
               <th>Action</th>
             </tr>
@@ -40,6 +41,9 @@
                 <td>{{ $loop->iteration }}</td>
                 <td class="fw-semibold">{{ $item->name }}</td>
                 <td>{{ $item->email }}</td>
+                <td>
+                  <span class="badge {{ $item->role === 'Admin' ? 'bg-primary' : 'bg-warning-subtle text-warning' }}">{{ $item->role }}</span>
+                </td>
                 {{-- Menampilkan hasil Hash::make() sebagai bukti password terenkripsi --}}
                 <td><small class="text-secondary">{{ Str::limit($item->password, 30) }}</small></td>
                 <td>
@@ -58,7 +62,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="text-center text-secondary py-4">Belum ada data user.</td>
+                <td colspan="6" class="text-center text-secondary py-4">Belum ada data user.</td>
               </tr>
             @endforelse
           </tbody>

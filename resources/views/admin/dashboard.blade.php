@@ -13,8 +13,8 @@
         <div class="card-body p-4 p-lg-5 d-flex flex-column flex-md-row align-items-center gap-4">
           <img src="{{ asset('assets-admin/images/logo-geprekku.png') }}" alt="Logo Geprekku" class="welcome-logo">
           <div>
-            <p class="text-uppercase small fw-semibold mb-1 opacity-75">Panel Admin</p>
-            <h1 class="fs-2 fw-bold mb-2">Selamat datang di Dashboard Geprekku</h1>
+            <p class="text-uppercase small fw-semibold mb-1 opacity-75">Panel Admin &bull; Role: {{ Auth::user()->role }}</p>
+            <h1 class="fs-2 fw-bold mb-2">Selamat datang, {{ Auth::user()->name }}</h1>
             <p class="mb-3 opacity-75">Kelola data menu, pelanggan, dan bahan baku warung ayam geprek dari sini.</p>
             <a href="{{ route('menu.create') }}" class="btn btn-light btn-sm me-2"><i class="ti ti-plus"></i> Tambah Menu</a>
             <a href="{{ route('bahan-baku.index') }}" class="btn btn-outline-light btn-sm"><i class="ti ti-box-seam"></i> Cek Stok</a>

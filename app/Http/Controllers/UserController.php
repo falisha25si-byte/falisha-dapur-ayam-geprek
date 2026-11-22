@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -19,12 +20,14 @@ class UserController extends Controller
         'email'     => 'Format :attribute tidak valid.',
         'unique'    => ':attribute sudah terdaftar.',
         'confirmed' => 'Konfirmasi :attribute tidak cocok.',
+        'in'        => ':attribute yang dipilih tidak valid.',
     ];
 
     private $atribut = [
         'name'     => 'Nama',
         'email'    => 'Email',
         'password' => 'Password',
+        'role'     => 'Role',
     ];
 
     /**
@@ -53,12 +56,14 @@ class UserController extends Controller
             'name'     => 'required|string|max:100',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
+            'role'     => 'required|in:Admin,Pelanggan',
         ], $this->pesan, $this->atribut);
 
         try {
             $data['name']     = $request->name;
             $data['email']    = $request->email;
             $data['password'] = Hash::make($request->password); // password disimpan terenkripsi
+            $data['role']     = $request->role;
 
             User::create($data);
         } catch (\Exception $e) {
@@ -97,6 +102,7 @@ class UserController extends Controller
             'email'    => 'required|email|unique:users,email,' . $id,
             // password opsional saat edit: kosong = password lama tidak diubah
             'password' => 'nullable|min:8|confirmed',
+            'role'     => 'required|in:Admin,Pelanggan',
         ], $this->pesan, $this->atribut);
 
         $user = User::findOrFail($id);
@@ -104,6 +110,7 @@ class UserController extends Controller
         try {
             $user->name  = $request->name;
             $user->email = $request->email;
+            $user->role  = $request->role;
 
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
@@ -123,6 +130,11 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        // akun yang sedang dipakai login tidak boleh dihapus
+        if ($user->id === Auth::id()) {
+            return redirect()->route('user.index')->with('error', 'Akun yang sedang login tidak bisa dihapus.');
+        }
 
         try {
             $user->delete();

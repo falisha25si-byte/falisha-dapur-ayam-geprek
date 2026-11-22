@@ -98,3 +98,11 @@
   border-color: var(--primary) !important;
   background-color: #fff5f5;
 }
+
+/* Badge role user yang login (navbar Guest) */
+.role-badge {
+  background: var(--secondary);
+  color: var(--dark);
+  font-size: 0.65rem;
+  vertical-align: middle;
+}

@@ -17,25 +17,38 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [PesanKontakController::class, 'store'])->name('contact.kirim'); // proses form Contact Us
 
-// Login
-Route::get('/auth', [AuthController::class, 'index'])->name('auth');            // tampilkan form
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login'); // proses form
+// ===== Authentication (Login, Register, Lupa Password, Logout) =====
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
-// ===== Admin =====
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
-// CRUD 3 tabel master
-Route::resource('menu', MenuController::class);
-Route::resource('pelanggan', PelangganController::class);
-Route::resource('bahan-baku', BahanBakuController::class);
+Route::get('/lupa-password', [AuthController::class, 'forgotForm'])->name('password.request');
+Route::post('/lupa-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 
-// CRUD User
-Route::resource('user', UserController::class);
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('auth.logout');
 
-// CRUD berelasi: Ulasan (Eloquent ORM) & Promo (Query Builder)
-Route::resource('ulasan', UlasanController::class);
-Route::resource('promo', PromoController::class);
+// ===== Admin (Authorization) =====
+// checkislogin -> harus login, checkrole:Admin -> hanya role Admin (selain itu 403)
+Route::group(['middleware' => ['checkislogin', 'checkrole:Admin']], function () {
 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Pesan masuk dari form Contact Us
-Route::resource('pesan', PesanKontakController::class)->only(['index', 'show', 'destroy']);
+    // CRUD 3 tabel master
+    Route::resource('menu', MenuController::class);
+    Route::resource('pelanggan', PelangganController::class);
+    Route::resource('bahan-baku', BahanBakuController::class);
+
+    // CRUD User
+    Route::resource('user', UserController::class);
+
+    // CRUD berelasi: Ulasan (Eloquent ORM) & Promo (Query Builder)
+    Route::resource('ulasan', UlasanController::class);
+    Route::resource('promo', PromoController::class);
+
+    // Pesan masuk dari form Contact Us
+    Route::resource('pesan', PesanKontakController::class)->only(['index', 'show', 'destroy']);
+});
